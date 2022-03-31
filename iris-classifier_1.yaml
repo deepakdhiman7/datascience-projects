@@ -1,0 +1,41 @@
+#iris-classifier.yaml
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#     labels:
+#         app: iris-classifier
+#     name: iris-classifier
+#     namespace: kubeflow
+# spec:
+#     ports:
+#     - name: predict
+#       port: 5000
+#       targetPort: 5000
+#     selector:
+#       app: iris-classifier
+#     type: LoadBalancer
+# ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    labels:
+        app: iris-classifier
+    name: iris-classifier
+    namespace: kubeflow
+spec:
+    selector:
+        matchLabels:
+            app: iris-classifier
+    template:
+        metadata:
+            labels:
+                app: iris-classifier
+        spec:
+            containers:
+            # - image: {docker_username}/iris-classifier
+            - image: hylinktree/iris-classifier
+              imagePullPolicy: IfNotPresent
+              name: iris-classifier
+              ports:
+              - containerPort: 5000
